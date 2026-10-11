@@ -1,0 +1,8 @@
+import { sqliteTable, text, integer } from 'drizzle-orm/sqlite-core';
+export const users=sqliteTable('users',{id:text('id').primaryKey(),email:text('email').notNull().unique(),name:text('name').notNull(),passwordHash:text('password_hash'),googleSub:text('google_sub').unique(),chatgptSub:text('chatgpt_sub').unique(),role:text('role').notNull().default('user'),active:integer('active').notNull().default(1),emailVerified:integer('email_verified').notNull().default(0),created:integer('created').notNull()});
+export const sessions=sqliteTable('sessions',{hash:text('hash').primaryKey(),userId:text('user_id').notNull().references(()=>users.id,{onDelete:'cascade'}),expires:integer('expires').notNull()});
+export const documents=sqliteTable('documents',{id:text('id').primaryKey(),userId:text('user_id').notNull().references(()=>users.id,{onDelete:'cascade'}),title:text('title').notNull(),kind:text('kind').notNull(),data:text('data').notNull(),updated:integer('updated').notNull()});
+export const templates=sqliteTable('templates',{id:text('id').primaryKey(),title:text('title').notNull(),kind:text('kind').notNull(),body:text('body').notNull(),updated:integer('updated').notNull(),editor:text('editor').notNull().references(()=>users.id)});
+export const rates=sqliteTable('rates',{key:text('key').primaryKey(),count:integer('count').notNull(),expires:integer('expires').notNull()});
+export const oauth=sqliteTable('oauth',{hash:text('hash').primaryKey(),verifier:text('verifier').notNull(),linkUser:text('link_user'),expires:integer('expires').notNull()});
+export const audit=sqliteTable('audit',{id:text('id').primaryKey(),actor:text('actor').notNull(),action:text('action').notNull(),target:text('target').notNull(),created:integer('created').notNull()});

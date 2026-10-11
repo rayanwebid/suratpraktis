@@ -1,0 +1,1 @@
+(function(){fetch('/api/auth/me').then(r=>r.json()).then(d=>{if(d.user){document.querySelector('.nav-actions').innerHTML='<a href="dashboard.html" class="btn dark small">Ruang dokumen ↗</a>';}}).catch(()=>{});})();
